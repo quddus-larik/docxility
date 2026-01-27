@@ -97,7 +97,7 @@ const isActive = (href?: string) => {
     items: DocNavItem[];
     depth?: number;
   }) => (
-    <ul className="space-y-1">
+    <ul className="space-y-1 h-full">
       {items.map((item, idx) => {
         const expanded = expandedItems.has(getItemId(item)) || shouldExpand(item);
         const hasChildren = item.items && item.items.length > 0;

@@ -13,7 +13,7 @@ interface DocPaginationProps {
 
 export function DocPagination({ prevHref, prevTitle, nextHref, nextTitle }: DocPaginationProps) {
   return (
-    <div className="flex items-center justify-between gap-4 pt-8 border-t border-border">
+    <div className="flex items-center justify-between gap-4 pt-3 border-t-[1.5px]">
       {prevHref ? (
         <Link href={prevHref} className="flex-1">
           <Button variant="outline" className="w-full justify-start gap-2 bg-transparent">

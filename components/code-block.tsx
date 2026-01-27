@@ -45,7 +45,6 @@ export function CodeBlock({
         </div>
       )}
 
-      {/* Code */}
       <div className="overflow-x-auto p-4">
         <pre className="font-mono text-sm leading-relaxed">
           <code>
