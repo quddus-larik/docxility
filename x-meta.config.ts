@@ -1,4 +1,5 @@
 import { DocPagination } from "./components/doc-pagination"
+import { DocSidebar } from "./components/doc-sidebar"
 import { DocTOC } from "./components/doc-toc"
 import { GButton } from "./plugins/deftheme/GButton"
 // Sitename
@@ -16,7 +17,8 @@ export const XMeta = {
         components: {
             button: GButton,
             pagination: DocPagination,
-            TOC: DocTOC
+            TOC: DocTOC,
+            sidebar: DocSidebar,
         }
     }
 }
