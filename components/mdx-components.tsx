@@ -1,124 +1,97 @@
 import * as React from "react"
+import { cn } from "@/lib/utils"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { AlertCircle, Info, CheckCircle2, AlertTriangle } from "lucide-react"
-import { cn } from "@/lib/utils"
 import { CodeBlock } from "./code-block"
 import { MdxTable } from "./mdx-table"
 import { MdxTabsCode } from "./mdx-tabs-code"
 
-
-interface CustomCardProps {
-  title: string
-  description?: string
-  children?: React.ReactNode
-  variant?: "default" | "secondary" | "outline"
+// -------------------- Helper to extract text from React children --------------------
+function getText(children: React.ReactNode | any): string {
+  if (typeof children === "string") return children
+  if (Array.isArray(children)) return children.map(getText).join("")
+  if (typeof children === "object" && children && "props" in children) {
+    return getText(children.props.children)
+  }
+  return ""
 }
 
-export const MdxCard: React.FC<CustomCardProps> = ({
-  title,
-  description,
-  children,
-  variant = "default",
-}) => {
-  return (
-    <Card
-      className={cn(
-        "my-6",
-        variant === "secondary" && "bg-secondary",
-        variant === "outline" && "border-dashed"
-      )}
-    >
+// -------------------- Heading factory --------------------
+const Heading = (Tag: React.ElementType, className: string) => {
+  return ({ children, ...props }: any) => {
+    const text = getText(children)
+    const id = text
+      .toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-")
+
+    return (
+      <Tag id={id} {...props} className={cn("scroll-mt-24", className, props.className)}>
+        {children}
+      </Tag>
+    )
+  }
+}
+
+// -------------------- MDX Components --------------------
+export const mdxComponents = {
+  h1: Heading("h1", "mt-8 text-4xl font-bold tracking-tight"),
+  h2: Heading("h2", "mt-10 border-b pb-2 text-2xl font-semibold tracking-tight"),
+  h3: Heading("h3", "mt-8 text-xl font-semibold tracking-tight"),
+  h4: Heading("h4", "mt-6 text-lg font-semibold"),
+  h5: Heading("h5", "mt-4 text-base font-semibold"),
+  h6: Heading("h6", "mt-4 text-sm font-semibold"),
+
+  p: ({ children }: any) => <p className="leading-7 not-first:mt-6">{children}</p>,
+  strong: ({ children }: any) => <strong className="font-semibold">{children}</strong>,
+  em: ({ children }: any) => <em className="italic">{children}</em>,
+
+  ul: ({ children }: any) => <ul className="my-6 ml-6 list-disc space-y-2">{children}</ul>,
+  ol: ({ children }: any) => <ol className="my-6 ml-6 list-decimal space-y-2">{children}</ol>,
+  li: ({ children }: any) => <li>{children}</li>,
+
+  blockquote: ({ children }: any) => (
+    <blockquote className="my-6 border-l-4 pl-6 italic text-muted-foreground">{children}</blockquote>
+  ),
+
+  pre: CodeBlock,
+  code: ({ children }: any) => <code className="rounded bg-muted px-1 py-0.5 text-sm">{children}</code>,
+
+  table: MdxTable,
+
+  MdxCard: ({ title, description, children, variant = "default" }: any) => (
+    <Card className={cn("my-6", variant === "secondary" && "bg-secondary", variant === "outline" && "border-dashed")}>
       <CardHeader>
         <CardTitle className="text-lg">{title}</CardTitle>
-        {description && (
-          <CardDescription className="text-sm">
-            {description}
-          </CardDescription>
-        )}
+        {description && <CardDescription className="text-sm">{description}</CardDescription>}
       </CardHeader>
-      <CardContent className="prose prose-neutral dark:prose-invert max-w-none">
-        {children}
-      </CardContent>
+      <CardContent className="prose prose-neutral dark:prose-invert max-w-none">{children}</CardContent>
     </Card>
-  )
-}
+  ),
 
-/* -------------------- ALERT -------------------- */
+  MdxAlert: ({ title, type = "info", children }: { title: string, type: string, children: any }) => {
+    const style: any = {
+      info: { icon: <Info className="h-4 w-4" />, className: "border-blue-200 bg-blue-50 dark:bg-blue-950" },
+      warning: { icon: <AlertTriangle className="h-4 w-4" />, className: "border-yellow-200 bg-yellow-50 dark:bg-yellow-950" },
+      success: { icon: <CheckCircle2 className="h-4 w-4" />, className: "border-green-200 bg-green-50 dark:bg-green-950" },
+      error: { icon: <AlertCircle className="h-4 w-4" />, className: "border-red-200 bg-red-50 dark:bg-red-950" },
+    }[type]
 
-interface CustomAlertProps {
-  title: string
-  type?: "info" | "warning" | "success" | "error"
-  children?: React.ReactNode
-}
-
-const alertStyles = {
-  info: {
-    icon: <Info className="h-4 w-4" />,
-    className: "border-blue-200 bg-blue-50 text-blue-900 dark:bg-blue-950 dark:text-blue-100",
-  },
-  warning: {
-    icon: <AlertTriangle className="h-4 w-4" />,
-    className: "border-yellow-200 bg-yellow-50 text-yellow-900 dark:bg-yellow-950 dark:text-yellow-100",
-  },
-  success: {
-    icon: <CheckCircle2 className="h-4 w-4" />,
-    className: "border-green-200 bg-green-50 text-green-900 dark:bg-green-950 dark:text-green-100",
-  },
-  error: {
-    icon: <AlertCircle className="h-4 w-4" />,
-    className: "border-red-200 bg-red-50 text-red-900 dark:bg-red-950 dark:text-red-100",
-  },
-}
-
-export const MdxAlert: React.FC<CustomAlertProps> = ({
-  title,
-  type = "info",
-  children,
-}) => {
-  const style = alertStyles[type]
-
-  return (
-    <Alert className={cn("my-6", style.className)}>
-      <div className="flex items-start gap-3">
+    return (
+      <Alert className={cn("my-6", style.className)}>
         {style.icon}
-        <div className="space-y-1">
+        <div className="flex flex-col gap-2">
           <AlertTitle className="font-semibold">{title}</AlertTitle>
-          <AlertDescription className="text-sm leading-relaxed">
-            {children}
-          </AlertDescription>
+          <AlertDescription className="text-sm w-full">{children}</AlertDescription>
         </div>
-      </div>
-    </Alert>
-  )
-}
+      </Alert>
+    )
+  },
 
-/* -------------------- BADGE -------------------- */
+  MdxBadge: ({ children, variant = "default" }: any) => <Badge variant={variant} className="mx-1 align-middle">{children}</Badge>,
 
-interface CustomBadgeProps {
-  children: React.ReactNode
-  variant?: "default" | "secondary" | "outline" | "destructive"
-}
-
-export const MdxBadge: React.FC<CustomBadgeProps> = ({
-  children,
-  variant = "default",
-}) => {
-  return (
-    <Badge variant={variant} className="mx-1 align-middle">
-      {children}
-    </Badge>
-  )
-}
-
-/* -------------------- MDX MAP -------------------- */
-
-export const mdxComponents = {
-  MdxCard,
-  MdxAlert,
-  MdxBadge,
-  CodeBlock,
-  MdxTable,
   MdxTabsCode,
 }

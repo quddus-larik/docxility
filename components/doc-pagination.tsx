@@ -18,7 +18,7 @@ export function DocPagination({ prevHref, prevTitle, nextHref, nextTitle }: DocP
         <Link href={prevHref} className="flex-1">
           <Button variant="outline" className="w-full justify-start gap-2 bg-transparent">
             <ArrowLeft className="w-4 h-4" />
-            <div className="text-left">
+            <div className="text-left py-2">
               <div className="text-xs text-muted-foreground">Previous</div>
               <div className="text-sm font-medium">{prevTitle}</div>
             </div>
@@ -30,7 +30,7 @@ export function DocPagination({ prevHref, prevTitle, nextHref, nextTitle }: DocP
 
       {nextHref ? (
         <Link href={nextHref} className="flex-1">
-          <Button variant="outline" className="w-full justify-end gap-2 bg-transparent">
+          <Button variant="outline" className="w-full flex justify-end gap-2 bg-transparent">
             <div className="text-right">
               <div className="text-xs text-muted-foreground">Next</div>
               <div className="text-sm font-medium">{nextTitle}</div>

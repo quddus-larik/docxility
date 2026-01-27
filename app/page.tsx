@@ -4,14 +4,13 @@ import { ChevronRight } from "lucide-react"
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-background to-muted p-4">
+    <main className="flex flex-col items-center justify-center min-h-screen bg-linear-to-b from-background to-muted p-4">
       <div className="text-center space-y-6 max-w-2xl">
         <h1 className="text-5xl font-bold tracking-tight">Documentation System</h1>
         <p className="text-xl text-muted-foreground">
           A production-ready, file-system driven documentation platform built with Next.js 16, React 19, TypeScript, and
           Tailwind CSS v4.
         </p>
-
         <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
           <Link href="/docs/v1">
             <Button size="lg" className="gap-2">
