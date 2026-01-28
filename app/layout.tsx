@@ -1,13 +1,26 @@
 import type React from "react"
 import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/next"
+import { XMeta } from "@/x-meta.config"
 import "./globals.css"
 import { Suspense } from "react"
 
 
 export const metadata: Metadata = {
-  title: "DocX",
-  description: "Created with Love by Quddus - LIXRIL",
+  title: {
+    default: XMeta.siteName,
+    template: `%s | ${XMeta.siteName}`,
+  },
+  description: XMeta.description,
+  keywords: ["documentation", "guide", "NextJS", "framework"],
+  authors: [{ name: "Quddus", url: "https://lixril.vercel.app" }],
+  creator: "Quddus",
+  publisher: "LIXRIL",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   icons: {
     icon: [
       {
@@ -25,6 +38,53 @@ export const metadata: Metadata = {
     ],
     apple: "/apple-icon.png",
   },
+  metadataBase: new URL(XMeta.siteUrl),
+  alternates: {
+    canonical: XMeta.siteUrl,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+}
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: XMeta.siteName,
+  description: XMeta.description,
+  url: XMeta.siteUrl,
+  logo: `${XMeta.siteUrl}/icon.svg`,
+  author: {
+    "@type": "Person",
+    name: "Quddus",
+    url: "https://lixril.vercel.app",
+  },
+}
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: XMeta.siteName,
+  description: XMeta.description,
+  url: XMeta.siteUrl,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${XMeta.siteUrl}/docs?search={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
 }
 
 export default function RootLayout({
@@ -34,9 +94,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Organization Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
+        {/* Website Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema),
+          }}
+        />
+      </head>
       <body className={`font-sans antialiased`}>
         <Suspense fallback={<div>Loading...</div>}>
-          
           {children}
         </Suspense>
         <Analytics />
