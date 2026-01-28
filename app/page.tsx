@@ -1,6 +1,30 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ChevronRight } from "lucide-react"
+import type { Metadata } from "next"
+import { XMeta } from "@/x-meta.config"
+
+export const metadata: Metadata = {
+  title: "Home",
+  description: XMeta.description,
+  keywords: ["documentation", "guide", "NextJS", "framework", "DocX"],
+  openGraph: {
+    title: `${XMeta.siteName} - Home`,
+    description: XMeta.description,
+    url: XMeta.siteUrl,
+    type: "website",
+    siteName: XMeta.siteName,
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${XMeta.siteName} - Home`,
+    description: XMeta.description,
+  },
+  alternates: {
+    canonical: XMeta.siteUrl,
+  },
+}
 
 export default function Home() {
   return (
