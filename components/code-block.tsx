@@ -1,64 +1,44 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Copy, Check } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import React, { useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Copy, Check } from "lucide-react";
 
-interface CodeBlockProps {
-  code: string
-  language?: string
-  filename?: string
-  highlightLines?: number[]
-  showLineNumbers?: boolean
+interface PreProps extends React.HTMLAttributes<HTMLPreElement> {
+  className?: string;
+  children: React.ReactNode;
 }
 
-export function CodeBlock({
-  code,
-  language = "javascript",
-  filename,
-  highlightLines = [],
-  showLineNumbers = true,
-}: CodeBlockProps) {
-  const [copied, setCopied] = useState(false)
+export const CodeBlock: React.FC<PreProps> = ({ className, children, ...props }) => {
+  const [copied, setCopied] = useState(false);
+  const preRef = useRef<HTMLPreElement>(null);
 
-  const copyToClipboard = async () => {
-    await navigator.clipboard.writeText(code)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  const lines = code.split("\n")
+  const handleCopy = () => {
+    if (preRef.current) {
+      const text = preRef.current.innerText; // get actual text from DOM
+      navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   return (
-    <div className="relative my-4 overflow-hidden rounded-lg border border-border bg-muted">
-      
-      {(filename || language) && (
-        <div className="flex items-center justify-between border-b border-border bg-muted/50 px-4 py-2">
-          <div className="text-xs font-medium text-muted-foreground">
-            {filename && <span>{filename}</span>}
-            {filename && language && <span className="mx-2">•</span>}
-            {language && <span className="uppercase">{language}</span>}
-          </div>
-          <Button size="sm" variant="ghost" onClick={copyToClipboard} className="h-6 w-6 p-0">
-            {copied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
-          </Button>
-        </div>
-      )}
-
-      <div className="overflow-x-auto p-4">
-        <pre className="font-mono text-sm leading-relaxed">
-          <code>
-            {lines.map((line, index) => (
-              <div key={index} className={`${highlightLines.includes(index + 1) ? "bg-yellow-500/20" : ""}`}>
-                {showLineNumbers && (
-                  <span className="mr-4 text-muted-foreground">{String(index + 1).padStart(2, "0")}</span>
-                )}
-                {line}
-              </div>
-            ))}
-          </code>
-        </pre>
-      </div>
+    <div className="relative w-full bg-muted p-1 rounded-sm my-1">
+      <pre
+        ref={preRef}
+        className={className || "rounded bg-green px-1 py-0.5 text-sm"}
+        {...props}
+      >
+        {children} {props.title}
+      </pre>
+      <Button
+        size="icon-sm"
+        variant="outline"
+        className="absolute top-1 right-1 flex items-center gap-1"
+        onClick={handleCopy}
+      >
+        {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+      </Button>
     </div>
-  )
-}
+  );
+};
