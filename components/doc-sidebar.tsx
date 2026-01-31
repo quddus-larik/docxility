@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { ChevronDown, Menu, X } from "lucide-react";
 import type { DocNavItem } from "@/types/types";
 import { useDocSidebar } from "@/hooks/useSidebar";
+import { SidebarCacheProvider } from "@/lib/sidebar-cache-context";
 
 interface DocSidebarProps {
   version: string;
@@ -99,7 +100,7 @@ export function DocSidebar({ version, currentPath }: DocSidebarProps) {
   );
 
   return (
-    <>
+    <SidebarCacheProvider>
       <Button
         variant="ghost"
         size="icon"
@@ -152,6 +153,6 @@ export function DocSidebar({ version, currentPath }: DocSidebarProps) {
       </aside>
 
       {open && <div className="fixed inset-0 z-20 bg-black/50 lg:hidden" onClick={() => setOpen(false)} />}
-    </>
+    </SidebarCacheProvider>
   );
 }

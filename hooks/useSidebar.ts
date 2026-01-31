@@ -1,7 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { DocNavItem } from "@/types/types";
+
+// Module-level cache - persists across component re-renders
+const versionsCache = { data: null as string[] | null };
+const navCache = new Map<string, DocNavItem[]>();
 
 export function useDocSidebar(version: string, currentPath: string) {
   const [open, setOpen] = useState(false);
@@ -10,14 +14,22 @@ export function useDocSidebar(version: string, currentPath: string) {
   const [loading, setLoading] = useState(true);
   const [versions, setVersions] = useState<string[]>([]);
   const [loadingVersions, setLoadingVersions] = useState(true);
+  const loadedVersionRef = useRef<string | null>(null);
 
-  // Fetch docs versions
+  // Fetch docs versions once
   useEffect(() => {
+    if (versionsCache.data !== null) {
+      setVersions(versionsCache.data);
+      setLoadingVersions(false);
+      return;
+    }
+
     const fetchVersions = async () => {
       try {
         const res = await fetch("/api/docs/versions");
         const data = await res.json();
-        setVersions(data.versions || []);
+        versionsCache.data = data.versions || [];
+        setVersions(versionsCache.data as any);
       } catch (err) {
         console.error("Failed to fetch versions:", err);
       } finally {
@@ -27,13 +39,34 @@ export function useDocSidebar(version: string, currentPath: string) {
     fetchVersions();
   }, []);
 
-  // Fetch navigation items
+  // Fetch navigation items - cached per version, no reload on page nav
   useEffect(() => {
+    // If already loaded for this version, use cached data immediately
+    if (loadedVersionRef.current === version && navCache.has(version)) {
+      setItems(navCache.get(version) || []);
+      setLoading(false);
+      return;
+    }
+
+    // Only show loading when switching versions
+    if (loadedVersionRef.current !== version) {
+      setLoading(true);
+    }
+
     const fetchNavigation = async () => {
       try {
-        const res = await fetch(`/api/docs/structure?version=${version}`);
-        const data = await res.json();
-        setItems(data.nav || []);
+        // Check cache first
+        if (navCache.has(version)) {
+          const cachedNav = navCache.get(version) || [];
+          setItems(cachedNav);
+        } else {
+          const res = await fetch(`/api/docs/structure?version=${version}`);
+          const data = await res.json();
+          const nav = data.nav || [];
+          navCache.set(version, nav);
+          setItems(nav);
+        }
+        loadedVersionRef.current = version;
       } catch (err) {
         console.error("Failed to fetch navigation:", err);
       } finally {
