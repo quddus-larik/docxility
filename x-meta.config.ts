@@ -7,7 +7,7 @@ import { GButton } from "./plugins/deftheme/GButton"
 export const XMeta = {
     siteName: "DocX - lixril",
     description: "Comprehensive documentation for DocX - A dynamic documentation generator framework built with Next.js",
-    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://docxify.vercel.com",
+    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://docxility.vercel.app",
     documentsPath: "content/docs",
     theme: {
         provider: [],
