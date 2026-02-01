@@ -7,11 +7,15 @@ import { GButton } from "./plugins/deftheme/GButton"
 export const XMeta = {
     siteName: "DocX - lixril",
     description: "Comprehensive documentation for DocX - A dynamic documentation generator framework built with Next.js",
-    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://docxility.vercel.app",
+    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://docxify.vercel.com",
     documentsPath: "content/docs",
     theme: {
-        provider: [],
-        colorScheme: []
+        mdx: {
+            highlighter: "pretty-code",
+            theme: "github-light",
+            keepBackground: false,
+        }
+
     },
     searchProvider: "<void>",
     interface: {
@@ -20,6 +24,6 @@ export const XMeta = {
             pagination: DocPagination,
             TOC: DocTOC,
             sidebar: DocSidebar,
-        }
+        },
     }
 }
