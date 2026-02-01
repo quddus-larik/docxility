@@ -3,15 +3,9 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-/* --------------------------------------------------
-   Context
--------------------------------------------------- */
 
 const StepContext = React.createContext<number | null>(null);
 
-/* --------------------------------------------------
-   Types
--------------------------------------------------- */
 
 interface StepItemProps {
   children: React.ReactNode;
@@ -29,9 +23,6 @@ interface CodeStepProps {
   className?: string;
 }
 
-/* --------------------------------------------------
-   Shared Step Layout (Best UI)
--------------------------------------------------- */
 
 function StepLayout({
   number,
@@ -45,7 +36,7 @@ function StepLayout({
   return (
     <div className="group relative flex gap-4">
       {/* Badge */}
-      <div className="relative z-10 flex-shrink-0">
+      <div className="relative z-10 shrink-0">
         <div
           className={cn(
             "flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold",
@@ -68,9 +59,6 @@ function StepLayout({
   );
 }
 
-/* --------------------------------------------------
-   Step
--------------------------------------------------- */
 
 export function Step({ children, className }: StepItemProps) {
   const stepNumber = React.useContext(StepContext);
@@ -84,9 +72,6 @@ export function Step({ children, className }: StepItemProps) {
   );
 }
 
-/* --------------------------------------------------
-   Steps (Clean vertical spacing)
--------------------------------------------------- */
 
 export function StepsWithCounter({ children, className }: StepsProps) {
   const items = React.Children.toArray(children);
@@ -102,9 +87,6 @@ export function StepsWithCounter({ children, className }: StepsProps) {
   );
 }
 
-/* --------------------------------------------------
-   Steps Connected (Timeline UI)
--------------------------------------------------- */
 
 export function StepsConnected({ children, className }: StepsProps) {
   const items = React.Children.toArray(children);
@@ -116,7 +98,7 @@ export function StepsConnected({ children, className }: StepsProps) {
           <div className="relative">
             {/* Vertical line */}
             {index < items.length - 1 && (
-              <div className="absolute left-[18px] top-10 h-full w-px bg-border" />
+              <div className="absolute left-4.5 top-10 h-full w-px bg-border border-l-2" />
             )}
 
             <StepLayout number={index + 1}>{child}</StepLayout>
@@ -127,9 +109,6 @@ export function StepsConnected({ children, className }: StepsProps) {
   );
 }
 
-/* --------------------------------------------------
-   CodeStep (Docs-quality wrapper)
--------------------------------------------------- */
 
 export function CodeStep({ children, lines, className }: CodeStepProps) {
   const highlightedLines = React.useMemo(() => {
