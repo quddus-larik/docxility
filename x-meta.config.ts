@@ -17,8 +17,21 @@ export const XMeta: XMetaInterface = {
       theme: "github-light",
       keepBackground: false,
     },
+    cssVars: {
+      root: {
+        "radius": "0.625rem"
+      },
+      light: {
+        "primary": "oklch(0.21 0.006 285.885)",
+        "primary-foreground": "oklch(0.985 0 0)"
+      },
+      dark: {
+        "primary": "oklch(0.92 0.004 286.32)",
+        "primary-foreground": "oklch(0.21 0.006 285.885)"
+      }
+    }
   },
-  searchProvider: "<void>",
+  searchProvider: "local",
   interface: {
     components: {
       button: GButton,

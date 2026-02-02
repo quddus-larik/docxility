@@ -31,5 +31,10 @@ interface DocXThemeInterface {
     highlighter: string,
     theme: string,
     keepBackground: boolean
-  } 
+  },
+  cssVars?: {
+    light?: Record<string, string>;
+    dark?: Record<string, string>;
+    root?: Record<string, string>; // For non-color vars like radius
+  }
 }

@@ -42,7 +42,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 }
 
 export async function useContentData(version: string, slug: string[] = []) {
-  validateVersion(version);
+  await validateVersion(version);
 
   const navigation = await generateNavigation(version);
   const doc = await resolveDoc(version, slug);
