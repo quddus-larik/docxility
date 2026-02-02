@@ -1,4 +1,5 @@
-# Docxility 
+# Docxes
+
 A powerful, package-free documentation framework for NextJS (App Router) that empowers developers with simplicity, flexibility, and complete control over Documentation.
 
 <center>
@@ -19,15 +20,15 @@ A powerful, package-free documentation framework for NextJS (App Router) that em
 4. Auto generation of sidebar content
 
 > [!IMPORTANT]
-> It have zero core Packages of Framework (Doxility).
+> It have zero core Packages of Framework (Doxes).
 
 ## One Config Control Entire Documents
 
 ```ts
 export const XMeta = {
-    siteName: "DocX - lixril",
+    siteName: "DocXes - lixril",
     description: "Comprehensive documentation for DocX - A dynamic documentation generator framework built with Next.js",
-    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://docxility.vercel.app",
+    siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://docxes.vercel.app",
     documentsPath: "content/docs",
     theme: {
         provider: [],
