@@ -12,7 +12,6 @@ import { Badge } from "@/components/ui/badge";
 import { AlertCircle, Info, CheckCircle2, AlertTriangle } from "lucide-react";
 import { CodeBlock } from "./code-block";
 import { MdxTable } from "./mdx-table";
-// import { MdxTabsCode } from "./mdx-tabs-code";
 import { Admonition } from "./admonition";
 import { Step, StepsWithCounter, StepsConnected, CodeStep } from "@/components/mdx/mdx-steps";
 

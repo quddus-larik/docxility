@@ -1,6 +1,7 @@
 import { AppMDXProvider } from "@/lib/mdx-provider";
 import { PageProps } from "@/hooks/useContent";
 import { useContentData } from "@/hooks/useContent";
+import { XMeta } from "@/x-meta.config";
 
 export default async function DocsPage(props: PageProps) {
   const { version, slug = [] } = await props.params;
