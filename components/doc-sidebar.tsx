@@ -2,18 +2,61 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { ChevronDown, Menu, X } from "lucide-react";
 import type { DocNavItem } from "@/types/types";
 import { useDocSidebar } from "@/hooks/useSidebar";
 import { SidebarCacheProvider } from "@/lib/sidebar-cache-context";
+import { cn } from "@/lib/utils";
+import { XMeta } from "@/x-meta.config";
+
+export interface DocSidebarStyles {
+  sidebar?: string;
+  nav?: string;
+  item?: string;
+  itemActive?: string;
+  itemWrapper?: string;
+  sectionTitle?: string;
+  toggleBtn?: string;
+  overlay?: string;
+}
 
 interface DocSidebarProps {
   version: string;
   currentPath: string;
+  styles?: DocSidebarStyles;
 }
 
-export function DocSidebar({ version, currentPath }: DocSidebarProps) {
+const defaultStyles: DocSidebarStyles = {
+  sidebar:
+    "bg-background border-r border-border w-72",
+  nav:
+    "space-y-1",
+  item:
+    "flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted/60 hover:text-foreground",
+  itemActive:
+    "bg-muted text-foreground font-medium",
+  sectionTitle:
+    "px-3 pt-4 pb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground",
+  toggleBtn:
+    "text-muted-foreground hover:text-foreground",
+  overlay:
+    "bg-black/40 backdrop-blur-sm",
+};
+
+export function DocSidebar({
+  version,
+  currentPath,
+  styles = XMeta.interface.styles.sidebar || {},
+}: DocSidebarProps) {
+  const s = { ...defaultStyles, ...styles };
+
   const {
     open,
     setOpen,
@@ -28,70 +71,86 @@ export function DocSidebar({ version, currentPath }: DocSidebarProps) {
     getItemId,
   } = useDocSidebar(version, currentPath);
 
-  const NavItems = ({ items, depth = 0 }: { items: DocNavItem[]; depth?: number }) => (
-    <ul className="space-y-1 h-full">
+  const NavItems = ({
+    items,
+    depth = 0,
+  }: {
+    items: DocNavItem[];
+    depth?: number;
+  }) => (
+    <ul className="space-y-1">
       {items.map((item) => {
-        const expanded = expandedItems.has(getItemId(item)) || shouldExpand(item);
-        const hasChildren = item.items && item.items.length > 0;
+        const expanded =
+          expandedItems.has(getItemId(item)) || shouldExpand(item);
+        const hasChildren = !!item.items?.length;
+
+        const baseItem = cn(
+          s.item,
+          isActive(item.href) && s.itemActive
+        );
+
+        const paddingLeft = {
+          paddingLeft: depth * 12 + 12,
+        };
 
         return (
           <li key={getItemId(item)}>
-            {/* File item */}
+            {/* File */}
             {!hasChildren && item.href && (
               <Link
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className={`flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                  isActive(item.href)
-                    ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                    : "text-sidebar-foreground hover:bg-sidebar-accent/50"
-                }`}
-                style={{ paddingLeft: `${depth * 12 + 12}px` }}
+                className={baseItem}
+                style={paddingLeft}
               >
                 {item.title}
               </Link>
             )}
 
-            {hasChildren && item.href && (
+            {/* Folder */}
+            {hasChildren && (
               <div className="flex items-center">
-                <Link
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className={`flex-1 flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors ${
-                    isActive(item.href)
-                      ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent/50"
-                  }`}
-                  style={{ paddingLeft: `${depth * 12 + 12}px` }}
-                >
-                  {item.title}
-                </Link>
+                {item.href ? (
+                  <Link
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    className={cn(baseItem, "flex-1")}
+                    style={paddingLeft}
+                  >
+                    {item.title}
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => toggleExpanded(getItemId(item))}
+                    className={cn(baseItem, "flex-1 text-left")}
+                    style={paddingLeft}
+                  >
+                    {item.title}
+                  </button>
+                )}
                 <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    toggleExpanded(item.title);
-                  }}
-                  className="p-1 hover:bg-sidebar-accent/50 rounded transition-colors shrink-0 mr-2"
-                  aria-label="Toggle folder"
+                  onClick={() => toggleExpanded(getItemId(item))}
+                  className={cn(
+                    "p-4 rounded h-full transition-colors",
+                    s.toggleBtn
+                  )}
                 >
-                  <ChevronDown className={`w-4 h-4 transition-transform ${expanded ? "rotate-180" : ""}`} />
+                  <ChevronDown
+                    className={cn(
+                      "transition-transform",
+                      expanded && "rotate-180"
+                    )}
+                  />
                 </button>
               </div>
             )}
 
-            {hasChildren && !item.href && (
-              <button
-                onClick={() => toggleExpanded(getItemId(item))}
-                className={`w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors text-sidebar-foreground hover:bg-sidebar-accent/50`}
-                style={{ paddingLeft: `${depth * 12 + 12}px` }}
-              >
-                <span>{item.title}</span>
-                <ChevronDown className={`w-4 h-4 transition-transform shrink-0 ${expanded ? "rotate-180" : ""}`} />
-              </button>
+            {hasChildren && expanded && (
+              <NavItems
+                items={item.items!}
+                depth={depth + 1}
+              />
             )}
-
-            {hasChildren && expanded && <NavItems items={item.items ?? []} depth={depth + 1} />}
           </li>
         );
       })}
@@ -100,58 +159,75 @@ export function DocSidebar({ version, currentPath }: DocSidebarProps) {
 
   return (
     <SidebarCacheProvider>
+      {/* Mobile toggle */}
       <Button
         variant="ghost"
         size="icon"
-        className="fixed top-4 left-4 lg:hidden z-40"
+        className="fixed top-4 left-4 z-40 lg:hidden"
         onClick={() => setOpen(!open)}
       >
-        {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        {open ? <X /> : <Menu />}
       </Button>
 
+      {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-30 w-64 bg-sidebar border-r border-sidebar-border transition-transform duration-200 lg:relative lg:translate-x-0 ${
+        className={cn(
+          "fixed inset-y-0 left-0 z-30 transition-transform duration-200 lg:relative lg:translate-x-0",
+          s.sidebar,
           open ? "translate-x-0" : "-translate-x-full"
-        }`}
+        )}
       >
-        <div className="h-full overflow-y-auto p-4 pt-16 lg:pt-4">
-          <nav className="space-y-8">
-            <div>
-              {loadingVersions ? (
-                <div className="px-3 pb-3 text-xs font-semibold text-sidebar-foreground/60 uppercase tracking-wider">
-                  Loading versions...
-                </div>
-              ) : versions.length > 1 ? (
-                <Select
-                  value={version}
-                  onValueChange={(newVersion) => {
-                    window.location.href = `/docs/${newVersion}`;
-                  }}
-                >
-                  <SelectTrigger className="mb-4">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {versions.map((v) => (
-                      <SelectItem key={v} value={v}>
-                        {v.toUpperCase()}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              ) : (
-                <h3 className="px-3 pb-3 text-xs font-semibold text-sidebar-foreground/60 uppercase tracking-wider">
-                  {version.toUpperCase()}
-                </h3>
-              )}
+        <div className="h-full overflow-y-auto px-3 pt-16 pb-6 lg:pt-4">
+          <nav className={s.nav}>
+            {loadingVersions ? (
+              <div className={s.sectionTitle}>
+                Loading…
+              </div>
+            ) : versions.length > 1 ? (
+              <Select
+                value={version}
+                onValueChange={(v) =>
+                  (window.location.href = `/docs/${v}`)
+                }
+              >
+                <SelectTrigger className="mb-3 h-9">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {versions.map((v) => (
+                    <SelectItem key={v} value={v}>
+                      {v.toUpperCase()}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            ) : (
+              <div className={s.sectionTitle}>
+                {version.toUpperCase()}
+              </div>
+            )}
 
-              {loading ? <div className="px-3 py-2 text-xs text-sidebar-foreground/50">Loading...</div> : <NavItems items={items} />}
-            </div>
+            {loading ? (
+              <div className="px-3 py-2 text-xs text-muted-foreground">
+                Loading…
+              </div>
+            ) : (
+              <NavItems items={items} />
+            )}
           </nav>
         </div>
       </aside>
 
-      {open && <div className="fixed inset-0 z-20 bg-black/50 lg:hidden" onClick={() => setOpen(false)} />}
+      {/* Overlay */}
+      {open && (
+        <div
+          className={cn(
+            "fixed inset-0 z-20 lg:hidden",
+            s.overlay
+          )}
+          onClick={() => setOpen(false)}
+        />
+      )}
     </SidebarCacheProvider>
   );
 }
