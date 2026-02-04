@@ -55,6 +55,7 @@ export function DocSidebar({
   version,
   currentPath,
   styles = {},
+
   header,
   footer,
 }: DocSidebarProps) {
@@ -195,7 +196,7 @@ export function DocSidebar({
                   (window.location.href = `/docs/${v}`)
                 }
               >
-                <SelectTrigger className="mb-3 h-9">
+                <SelectTrigger className="mb-3 h-9 w-full">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>

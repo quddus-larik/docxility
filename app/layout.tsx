@@ -6,6 +6,7 @@ import { Providers } from "@/components/providers"
 import { ThemeInjector } from "@/components/theme-injector"
 import "./globals.css"
 import { Suspense } from "react"
+import { SearchDialog } from "@/components/search-dialog"
 
 
 export const metadata: Metadata = {
@@ -116,6 +117,7 @@ export default function RootLayout({
         <Providers attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ThemeInjector />
           <Suspense fallback={<div>Loading...</div>}>
+          <SearchDialog />
             {children}
           </Suspense>
           <Analytics />

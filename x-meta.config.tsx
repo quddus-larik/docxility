@@ -1,6 +1,7 @@
 import { DocPagination } from "./components/doc-pagination";
 import { DocSidebar } from "./components/doc-sidebar";
 import { DocTOC } from "./components/doc-toc";
+import { Badge } from "./components/ui/badge";
 import { GButton } from "./plugins/deftheme/GButton";
 import { DocXInterface, XMetaInterface } from "./types/interface";
 // Sitename
@@ -18,9 +19,6 @@ export const XMeta: XMetaInterface = {
       keepBackground: false,
     },
     cssVars: {
-      root: {
-        "radius": "0.625rem"
-      },
       light: {
         "primary": "oklch(0.21 0.006 285.885)",
         "primary-foreground": "oklch(0.985 0 0)"
@@ -40,18 +38,20 @@ export const XMeta: XMetaInterface = {
       sidebar: DocSidebar,
       sidebarHeader: ({ version }: { version: string }) => (
         <div className="px-6 py-4 border-b">
-          <div className="font-bold text-lg">DocX {version}</div>
+          <div className="font-bold text-lg">Docxes</div>
+          <Badge>{version}</Badge>
         </div>
       ),
       sidebarFooter: () => (
         <div className="px-6 py-4 border-t text-xs text-muted-foreground">
-          © 2026 Lixril. Built with DocX.
+          © 2026 Lixril. Built with Docxes.
         </div>
       ),
     },
     styles: {
       sidebar: {
-        sidebar: "bg-background border-r border-border w-64 flex flex-col",
+        sidebar: "bg-background border-r border-border flex flex-col",
+        toggleBtn: "first-"
       },
       TOC: {
         title: "text-xs font-bold uppercase tracking-widest text-primary mb-4",
