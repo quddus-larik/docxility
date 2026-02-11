@@ -34,13 +34,14 @@ export function DocTOC({
   if (!headings.length) return null;
 
   const renderItems = (items: TocItem[], depth = 0) => (
-    <ul className="space-y-1">
+    <ul className="flex flex-col gap-1 list-none p-0 m-0">
       {items.map((item) => (
-        <li key={item.heading.id}>
+        <li key={item.heading.id} className="list-none">
           <button
             type="button"
             onClick={() => scrollToHeading(item.heading.id)}
             className={cn(
+              "w-full rounded text-left transition-colors border-0 cursor-pointer bg-transparent",
               s.item,
               activeId === item.heading.id && s.itemActive
             )}
@@ -55,10 +56,10 @@ export function DocTOC({
   );
 
   return (
-    <aside className={s.container}>
+    <aside className={cn("overflow-y-auto", s.container)}>
       {header}
-      <nav className={s.nav}>
-        <h3 className={s.title}>On This Page</h3>
+      <nav className={cn("flex flex-col", s.nav)}>
+        <h3 className={cn("m-0", s.title)}>On This Page</h3>
         {renderItems(hierarchy)}
       </nav>
       {footer}

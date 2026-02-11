@@ -50,13 +50,22 @@ export async function useContentData(version: string, slug: string[] = []) {
   const currentPath = getCurrentPath(version, slug);
   const { prev, next } = getPagination(navigation, currentPath);
 
-  const SidebarSlot = getPlugin("sidebar");
-  const PaginationSlot = getPlugin("pagination");
-  const TOCSlot = getPlugin("TOC");
-  
   // Get Styles and Slots from XMeta directly
-  const styles = XMeta.interface.styles || {};
-  const components = XMeta.interface.components || {};
+  const styles = {
+    sidebar: XMeta.sidebar?.styles || {},
+    TOC: XMeta.toc?.styles || {},
+    pagination: XMeta.pagination?.styles || {},
+  };
+  
+  const components = {
+    sidebar: XMeta.sidebar?.component || getPlugin("sidebar"),
+    sidebarHeader: XMeta.sidebar?.header,
+    sidebarFooter: XMeta.sidebar?.footer,
+    TOC: XMeta.toc?.component || getPlugin("TOC"),
+    TOCHeader: XMeta.toc?.header,
+    TOCFooter: XMeta.toc?.footer,
+    pagination: XMeta.pagination?.component || getPlugin("pagination"),
+  };
 
   const articleSchema = doc ? generateArticleSchema({
     title: doc.title,
@@ -72,9 +81,9 @@ export async function useContentData(version: string, slug: string[] = []) {
     currentPath,
     prev,
     next,
-    SidebarSlot,
-    PaginationSlot,
-    TOCSlot,
+    SidebarSlot: components.sidebar,
+    PaginationSlot: components.pagination,
+    TOCSlot: components.TOC,
     articleSchema,
     breadcrumbSchema,
     styles,
