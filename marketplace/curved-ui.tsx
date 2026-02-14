@@ -82,8 +82,7 @@ export const CurvedUI: Partial<XMetaConfig> = {
           </Link>
           <nav className="hidden md:flex items-center gap-6">
             <Link href="/docs" className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors">Docs</Link>
-            <Link href="/mvp" className="text-sm font-semibold text-muted-foreground hover:text-primary transition-colors">MVP</Link>
-          </nav>
+            </nav>
         </div>
         <div className="flex items-center gap-4">
           <div className="hidden sm:block">

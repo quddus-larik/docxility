@@ -70,8 +70,7 @@ export const ShadcnUI: Partial<XMetaConfig> = {
           </Link>
           <nav className="hidden md:flex items-center gap-4">
             <Link href="/docs" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Docs</Link>
-            <Link href="/mvp" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">Release</Link>
-          </nav>
+            </nav>
         </div>
         <div className="flex items-center gap-3">
           <SearchDialog />
