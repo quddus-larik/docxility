@@ -1,7 +1,5 @@
-import { CurvedUI } from "@/marketplace/curved-ui";
 import { ShadcnUI } from "@/marketplace/shadcn-ui";
 import { createConfig } from "@/lib/configuration";
-import { SearchDialog } from "@/components/search-dialog";
 
 /**
  * 💡 TIP FOR DEVELOPERS:
@@ -20,11 +18,9 @@ export const XMeta = createConfig({
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://docxes.vercel.app",
   searchProvider: "flexsearch",
 
-  // DELETE SIDEBAR HEADER (OPTIONAL)
   sidebar: {
     ...ShadcnUI.sidebar,
-    header: undefined, 
-  }
+  },
 });
 
 export default XMeta;
