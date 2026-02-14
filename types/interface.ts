@@ -68,6 +68,7 @@ export interface XMetaConfig {
   header?: React.ComponentType<any>;
   footer?: React.ComponentType<any>;
   button?: React.ComponentType<any>;
+  modeToggle?: React.ComponentType<any>;
 }
 
 export interface XMetaInterface extends XMetaConfig {}

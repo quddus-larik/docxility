@@ -290,7 +290,11 @@ export async function getVersions(): Promise<string[]> {
       }
   }
   
-  return versions.sort()
+  return versions.sort((a, b) => {
+    const numA = parseInt(a.replace(/\D/g, "") || "0");
+    const numB = parseInt(b.replace(/\D/g, "") || "0");
+    return numA - numB;
+  });
 }
 
 async function hasValidMarkdownFiles(dir: string): Promise<boolean> {

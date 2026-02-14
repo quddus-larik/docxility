@@ -39,8 +39,8 @@ export default async function DocsPage({ params }: PageProps) {
       )}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
 
-      <div className="h-svh overflow-hidden">
-        <div className="flex overflow-hidden h-full">
+      <div className="h-[calc(100vh-3.5rem)]">
+        <div className="flex overflow-auto h-full">
           <SidebarSlot 
             currentPath={currentPath} 
             version={version} 

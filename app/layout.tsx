@@ -6,7 +6,6 @@ import { Providers } from "@/components/providers"
 import { ThemeInjector } from "@/components/theme-injector"
 import "./globals.css"
 import { Suspense } from "react"
-import { SearchDialog } from "@/components/search-dialog"
 
 
 export const metadata: Metadata = {
@@ -113,13 +112,17 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`font-sans antialiased`}>
+      <body className={`font-sans antialiased overflow-y-hidden`}>
         <Providers attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ThemeInjector />
-          <Suspense fallback={<div>Loading...</div>}>
-          <SearchDialog />
-            {children}
-          </Suspense>
+          <div className="relative flex min-h-svh flex-col">
+            {XMeta.header && <XMeta.header siteName={XMeta.siteName} />}
+            <main className="flex-1">
+              <Suspense fallback={<div>Loading...</div>}>
+                {children}
+              </Suspense>
+            </main>
+          </div>
           <Analytics />
         </Providers>
       </body>
