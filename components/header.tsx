@@ -1,17 +1,11 @@
-"use client"
-
 import React from "react"
 import Link from "next/link"
 import { SearchDialog } from "./search-dialog"
 import { cn } from "@/lib/utils"
 import { XMeta } from "@/x-meta.config"
+import { HeaderProps } from "@/types/interface"
 
-export interface HeaderProps {
-  siteName?: string
-  className?: string
-}
-
-export function Header({ siteName = "DocX", className }: HeaderProps) {
+export function Header({ siteName, className, versions }: HeaderProps) {
   const ModeToggle = XMeta.modeToggle;
   
   return (

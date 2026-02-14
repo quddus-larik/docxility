@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -64,6 +65,7 @@ export function DocSidebar({
   footer,
 }: DocSidebarProps) {
   const s = { ...defaultStyles, ...styles };
+  const router = useRouter();
 
   const {
     open,
@@ -214,7 +216,7 @@ export function DocSidebar({
               <div className="px-3">
                 <select 
                   value={version}
-                  onChange={(e) => window.location.href = `/docs/${e.target.value}`}
+                  onChange={(e) => router.push(`/docs/${e.target.value}`)}
                   className="w-full p-2 rounded-md border bg-background text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   {versions.map((v) => (

@@ -3,17 +3,20 @@ import { DocSidebar } from "./components/doc-sidebar";
 import { DocTOC } from "./components/doc-toc";
 import { Header } from "./components/header";
 import { ModeToggle } from "./components/mode-toggle";
-import { Badge } from "./components/ui/badge";
-import { GButton } from "./plugins/deftheme/GButton";
 import { XMetaConfig } from "./types/interface";
 import { CurvedUI } from "./marketplace/curved-ui";
+import { MinimalUI } from "./marketplace/minimal-ui";
 
 /**
- * Default configuration for DocX.
+ * 💡 TIP FOR DEVELOPERS:
+ * This file is your primary control center. You should mostly edit this file
+ * and the 'content/' directory. Avoid changing files in 'lib/' or 'app/' 
+ * unless you are extending the core framework logic.
  */
+
 const defaults: XMetaConfig = {
-  siteName: "DocX",
-  description: "A dynamic documentation generator framework built with Next.js",
+  siteName: "DocXes",
+  description: "A dynamic documentation generator framework",
   siteUrl: "http://localhost:3000",
   documentsPath: "content/docs",
   searchProvider: "local",
@@ -26,96 +29,51 @@ const defaults: XMetaConfig = {
   },
   header: Header,
   modeToggle: ModeToggle,
-  sidebar: {
-    component: DocSidebar,
-    styles: {},
-  },
-  toc: {
-    component: DocTOC,
-    styles: {},
-  },
-  pagination: {
-    component: DocPagination,
-    styles: {},
-  },
-  versions: {
-    default: "v1",
-  }
+  sidebar: { component: DocSidebar, styles: {} },
+  toc: { component: DocTOC, styles: {} },
+  pagination: { component: DocPagination, styles: {} },
+  versions: { default: "v1" }
 };
 
-/**
- * DocX Configuration Factory
- */
-export const xMetaConfig = (overrides: Partial<XMetaConfig> = {}): XMetaConfig => {
+
+export const createConfig = (overrides: Partial<XMetaConfig> = {}): XMetaConfig => {
   return {
     ...defaults,
     ...overrides,
-    theme: {
-      ...defaults.theme,
-      ...overrides.theme,
-      mdx: {
-        ...defaults.theme.mdx,
-        ...overrides.theme?.mdx,
-      },
-      cssVars: {
-        ...defaults.theme.cssVars,
-        ...overrides.theme?.cssVars,
-      },
-    },
-    sidebar: {
-      ...defaults.sidebar,
-      ...overrides.sidebar,
-      styles: {
-        ...defaults.sidebar.styles,
-        ...overrides.sidebar?.styles,
-      },
-    },
-    toc: {
-      ...defaults.toc,
-      ...overrides.toc,
-      styles: {
-        ...defaults.toc.styles,
-        ...overrides.toc?.styles,
-      },
-    },
-    pagination: {
-      ...defaults.pagination,
-      ...overrides.pagination,
-      styles: {
-        ...defaults.pagination.styles,
-        ...overrides.pagination?.styles,
-      },
-    },
-    versions: {
-      ...defaults.versions,
-      ...overrides.versions,
-    },
-    modeToggle: overrides.modeToggle || defaults.modeToggle,
+    theme: { ...defaults.theme, ...overrides.theme },
+    sidebar: { ...defaults.sidebar, ...overrides.sidebar },
+    toc: { ...defaults.toc, ...overrides.toc },
+    pagination: { ...defaults.pagination, ...overrides.pagination },
+    versions: { ...defaults.versions, ...overrides.versions },
   };
 };
 
-export default xMetaConfig;
+/* -------------------------------------------------------------------------- */
+/*                            ACTIVE CONFIGURATION                            */
+/* -------------------------------------------------------------------------- */
 
 /**
- * Resolved configuration instance
- * To switch to Curved UI, simply merge it here: xMetaConfig(CurvedUI)
+ * 🚀 ACTIVE CONFIG
+ * To switch designs, simply swap the spread theme (e.g., ...MinimalUI or ...MinimalUI)
  */
-export const XMeta = xMetaConfig({
-  ...CurvedUI,
-  siteName: "DocX - lixril",
-  description: "Comprehensive documentation for DocX",
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://docxes.vercel.app",
+export const XMeta = createConfig({
+  ...CurvedUI, // <-- CHANGE THEME HERE
   
-  // You can still override CurvedUI settings here if needed
+  siteName: "DocXes",
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://docxes.vercel.app",
+
+  // Custom UI Overrides (Optional)
   sidebar: {
     ...CurvedUI.sidebar,
-    header: ({ version }: { version: string }) => (
-      <div className="px-6 py-4 border-b">
-        <div className="font-bold text-lg">Docxes</div>
-        <Badge>{version}</Badge>
+    header: ({ version }) => (
+      <div className="px-6 py-8 border-b border-dashed bg-primary/5">
+        <div className="font-black text-2xl tracking-tighter text-primary">DOCXES</div>
+        <div className="text-[10px] uppercase tracking-[0.2em] font-bold text-muted-foreground mt-1 opacity-60">
+          Build {version}
+        </div>
       </div>
     ),
-  },
-
-  button: GButton,
+  }
 });
+
+export default XMeta;

@@ -4,6 +4,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { XMeta } from "@/x-meta.config"
 import { Providers } from "@/components/providers"
 import { ThemeInjector } from "@/components/theme-injector"
+import { getVersions } from "@/lib/docs"
 import "./globals.css"
 import { Suspense } from "react"
 
@@ -89,11 +90,13 @@ const websiteSchema = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const versions = await getVersions();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -116,7 +119,12 @@ export default function RootLayout({
         <Providers attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ThemeInjector />
           <div className="relative flex min-h-svh flex-col">
-            {XMeta.header && <XMeta.header siteName={XMeta.siteName} />}
+            {XMeta.header && (
+              <XMeta.header 
+                siteName={XMeta.siteName} 
+                versions={versions} 
+              />
+            )}
             <main className="flex-1">
               <Suspense fallback={<div>Loading...</div>}>
                 {children}

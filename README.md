@@ -37,7 +37,6 @@ export const XMeta = {
     searchProvider: "<void>",
     interface: {
         components: {
-            button: GButton,
             pagination: DocPagination,
             TOC: DocTOC,
             sidebar: DocSidebar,

@@ -26,6 +26,17 @@ export interface PaginationProps {
   styles?: DocPaginationStyles;
 }
 
+export interface HeaderProps {
+  siteName: string;
+  className?: string;
+  versions: string[];
+}
+
+export interface FooterProps {
+  siteName: string;
+  version: string;
+}
+
 export interface XMetaConfig {
   siteName: string;
   description: string;
@@ -65,8 +76,8 @@ export interface XMetaConfig {
   versions: {
     default: string;
   };
-  header?: React.ComponentType<any>;
-  footer?: React.ComponentType<any>;
+  header?: React.ComponentType<HeaderProps>;
+  footer?: React.ComponentType<FooterProps>;
   button?: React.ComponentType<any>;
   modeToggle?: React.ComponentType<any>;
 }
