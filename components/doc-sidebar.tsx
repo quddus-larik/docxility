@@ -192,7 +192,7 @@ export function DocSidebar({
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-30 transition-transform duration-200 lg:sticky lg:top-14 lg:self-start lg:translate-x-0 h-full lg:min-h-[calc(100vh-3.5rem)]",
+          "fixed inset-y-0 left-0 z-10 transition-transform duration-200 lg:sticky lg:top-14 lg:self-start lg:translate-x-0 h-full lg:min-h-[calc(100vh-3.5rem)]",
           s.sidebar,
           open ? "translate-x-0" : "-translate-x-full"
         )}

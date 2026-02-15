@@ -54,7 +54,7 @@ export const ShadcnUI: Partial<XMetaConfig> = {
 
   sidebar: {
     styles: {
-      sidebar: "bg-background border-r border-border w-64 shrink-0 z-50",
+      sidebar: "bg-background border-r border-border w-64 shrink-0 z-30",
       nav: "px-1 py-3 space-y-1",
       item: "flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
       itemActive: "bg-accent text-accent-foreground border",

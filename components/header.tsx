@@ -19,33 +19,26 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Configuration",
-    href: "/docs/v1/configuration",
+    href: "/docs/v1/guides/configuration",
     description: "Learn how to configure your documentation site via x-meta.config.tsx.",
   },
   {
     title: "Customization",
-    href: "/docs/v1/customization",
+    href: "/docs/v1/guides/customizing-ui",
     description: "Deep dive into theme customization and headless Tailwind styles.",
   },
   {
     title: "Theming",
-    href: "/docs/v1/theming",
+    href: "/docs/v1/core-concepts/theming-engine",
     description: "Manage colors, typography, and visual styles across your site.",
   },
   {
     title: "Components",
-    href: "/docs/v1/components",
+    href: "/docs/v1/reference/components",
     description: "Explore the built-in MDX components available for your content.",
   },
 ]
@@ -95,7 +88,7 @@ export function Header({ siteName, className, versions }: HeaderProps) {
   };
   
   return (
-    <header className={cn("sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60", className)}>
+    <header className={cn("sticky top-0 w-full border-b bg-background/95 z-50 backdrop-blur supports-[backdrop-filter]:bg-background/60", className)}>
       <div className="container mx-auto flex h-14 items-center justify-between px-2">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-3">
@@ -123,17 +116,17 @@ export function Header({ siteName, className, versions }: HeaderProps) {
                 <NavigationMenuTrigger className="bg-transparent">Getting started</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                    <ListItem href={`/docs/${currentVersion}/introduction`} title="Introduction">
+                    <ListItem href={`/docs/${currentVersion}/getting-started/introduction`} title="Introduction">
                       Learn about DocXes, the modern documentation framework.
                     </ListItem>
-                    <ListItem href={`/docs/${currentVersion}/getting-started`} title="Quick Start">
+                    <ListItem href={`/docs/${currentVersion}/getting-started/installation`} title="Quick Start">
                       Get up and running with your own documentation in minutes.
                     </ListItem>
-                    <ListItem href={`/docs/${currentVersion}/architecture`} title="Architecture">
+                    <ListItem href={`/docs/${currentVersion}/core-concepts/architecture`} title="Architecture">
                       Understand how DocXes works under the hood.
                     </ListItem>
-                    <ListItem href={`/docs/${currentVersion}/development`} title="Development">
-                      Guidelines for contributing and local development.
+                    <ListItem href={`/docs/${currentVersion}/core-concepts/routing`} title="Routing">
+                      Learn about file-system routing and versioning.
                     </ListItem>
                   </ul>
                 </NavigationMenuContent>
