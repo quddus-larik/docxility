@@ -15,8 +15,8 @@ export const metadata: Metadata = {
     template: `%s | ${XMeta.siteName}`,
   },
   description: XMeta.description,
-  keywords: ["documentation", "guide", "NextJS", "framework"],
-  authors: [{ name: "Quddus", url: "https://lixril.vercel.app" }],
+  keywords: ["documentation", "guide", "NextJS", "framework","documentation-tool"],
+  authors: [{ name: "Quddus", url: "https://docxes.vercel.app" }],
   creator: "Quddus",
   publisher: "LIXRIL",
   formatDetection: {

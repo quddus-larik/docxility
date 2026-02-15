@@ -1,8 +1,4 @@
-import React from "react";
-import Link from "next/link";
 import { XMetaConfig, HeaderProps } from "@/types/interface";
-import { ModeToggle } from "@/components/mode-toggle";
-import { SearchDialog } from "@/components/search-dialog";
 
 /**
  * Minimal UI Customization for DocX
