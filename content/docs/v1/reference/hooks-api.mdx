@@ -30,11 +30,14 @@ export function ToggleButton() {
 
 ### Return Values
 
-| Value | Type | Description |
-| :--- | :--- | :--- |
-| `open` | `boolean` | `true` if the sidebar is visible (on mobile). |
-| `setOpen` | `(open: boolean) => void` | Sets the exact state. |
-| `toggle` | `() => void` | Toggles the state. |
+<MdxTable 
+  headers={["Value", "Type", "Description"]}
+  rows={[
+    ["`open`", "`boolean`", "`true` if the sidebar is visible (on mobile)."],
+    ["`setOpen`", "`(open: boolean) => void`", "Sets the exact state."],
+    ["`toggle`", "`() => void`", "Toggles the state."]
+  ]}
+/>
 
 ---
 
@@ -56,10 +59,13 @@ export function CustomNav() {
 
 ### Parameters
 
-| Param | Type | Description |
-| :--- | :--- | :--- |
-| `version` | `string` | The active documentation version (e.g., "v1"). |
-| `currentPath` | `string` | The current URL path for highlighting active items. |
+<MdxTable 
+  headers={["Param", "Type", "Description"]}
+  rows={[
+    ["`version`", "`string`", "The active documentation version (e.g., \"v1\")."],
+    ["`currentPath`", "`string`", "The current URL path for highlighting active items."]
+  ]}
+/>
 
 ---
 
@@ -90,6 +96,9 @@ export function TOC({ headings }) {
 
 ### Parameters
 
-| Param | Type | Description |
-| :--- | :--- | :--- |
-| `headings` | `DocHeading[]` | Array of `{ id, title, level }` extracted from MDX. |
+<MdxTable 
+  headers={["Param", "Type", "Description"]}
+  rows={[
+    ["`headings`", "`DocHeading[]`", "Array of `{ id, title, level }` extracted from MDX."]
+  ]}
+/>

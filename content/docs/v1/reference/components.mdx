@@ -13,11 +13,14 @@ Renders a colored alert box for emphasis.
 
 ### Props
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `type` | `"info" \| "warning" \| "success" \| "error"` | `"info"` | The semantic style of the alert. |
-| `title` | `string` | - | The bold title at the top of the alert. |
-| `children` | `ReactNode` | - | The content of the alert. |
+<MdxTable 
+  headers={["Prop", "Type", "Default", "Description"]}
+  rows={[
+    ["`type`", '`"info" | "warning" | "success" | "error"`', '`"info"`', "The semantic style of the alert."],
+    ["`title`", "`string`", "-", "The bold title at the top of the alert."],
+    ["`children`", "`ReactNode`", "-", "The content of the alert."]
+  ]}
+/>
 
 ### Example
 
@@ -35,12 +38,15 @@ Renders a clickable card, useful for navigation grids.
 
 ### Props
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `title` | `string` | - | The title of the card. |
-| `href` | `string` | - | The URL to link to. |
-| `variant` | `"default" \| "secondary" \| "outline"` | `"default"` | Visual style variant. |
-| `children` | `ReactNode` | - | The body text of the card. |
+<MdxTable 
+  headers={["Prop", "Type", "Default", "Description"]}
+  rows={[
+    ["`title`", "`string`", "-", "The title of the card."],
+    ["`href`", "`string`", "-", "The URL to link to."],
+    ["`variant`", '`"default" | "secondary" | "outline"`', '`"default"`', "Visual style variant."],
+    ["`children`", "`ReactNode`", "-", "The body text of the card."]
+  ]}
+/>
 
 ### Example
 
@@ -58,10 +64,13 @@ Renders a small status indicator.
 
 ### Props
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `variant` | `"default" \| "secondary" \| "destructive" \| "outline"` | `"default"` | Visual style variant. |
-| `children` | `ReactNode` | - | The text inside the badge. |
+<MdxTable 
+  headers={["Prop", "Type", "Default", "Description"]}
+  rows={[
+    ["`variant`", '`"default" | "secondary" | "destructive" | "outline"`', '`"default"`', "Visual style variant."],
+    ["`children`", "`ReactNode`", "-", "The text inside the badge."]
+  ]}
+/>
 
 ### Example
 
@@ -77,15 +86,21 @@ Renders a vertical list of steps with a connecting line.
 
 ### Props (StepsWithCounter)
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `children` | `ReactNode` | - | Should contain `Step` components. |
+<MdxTable 
+  headers={["Prop", "Type", "Default", "Description"]}
+  rows={[
+    ["`children`", "`ReactNode`", "-", "Should contain `Step` components."]
+  ]}
+/>
 
 ### Props (Step)
 
-| Prop | Type | Default | Description |
-| :--- | :--- | :--- | :--- |
-| `children` | `ReactNode` | - | The content of the step. Markdown is supported. |
+<MdxTable 
+  headers={["Prop", "Type", "Default", "Description"]}
+  rows={[
+    ["`children`", "`ReactNode`", "-", "The content of the step. Markdown is supported."]
+  ]}
+/>
 
 ### Example
 
