@@ -1,167 +1,83 @@
 ---
 title: Getting Started
-description: Learn how to install, configure, and use DocX for your documentation project.
-keywords: ["usage", "guide", "setup", "configuration", "docx"]
+description: Learn how to install, configure, and launch your first DocXes project.
 order: 2
 ---
 
-# DocX
+# Getting Started
 
-DocX is a production-ready, file-system driven documentation framework built on Next.js 16. It offers a "Formula-like" customization experience, allowing you to completely tailor the look and feel without fighting the framework.
+Launch a high-performance documentation site in minutes. DocXes is designed to be cloned and customized as a template, giving you immediate access to all source code.
+
+## Prerequisites
+
+- **Node.js**: v20.0.0 or higher
+- **Package Manager**: pnpm (recommended), npm, or yarn
 
 ## Installation
 
-Since DocX is a Next.js template, you typically start by cloning the repository or using a starter.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/quddus-larik/docxes.git my-docs
+   cd my-docs
+   ```
 
-```bash
-git clone https://github.com/quddus-larik/docxes.git my-docs
-cd my-docs
-pnpm install
-```
+2. **Install dependencies**:
+   ```bash
+   pnpm install
+   ```
+
+3. **Start the development server**:
+   ```bash
+   pnpm dev
+   ```
+   Open [http://localhost:3000](http://localhost:3000) to see your site.
 
 ## Project Structure
 
-- **`content/docs`**: This is where your markdown/MDX files live.
-- **`x-meta.config.ts`**: The central configuration file for your site metadata, theme, and UI components.
-- **`components/`**: React components used in the application.
+A typical DocXes project is organized for clarity and separation of concerns:
 
-## Configuration
+- **`content/docs/`**: Your Markdown/MDX files. Organized by version (e.g., `v1/`).
+- **`x-meta.config.tsx`**: The main configuration file for site metadata and theme selection.
+- **`marketplace/`**: Pre-built UI formulas (Shadcn, Curved, Minimal).
+- **`components/`**: UI components and MDX logic.
+- **`lib/`**: Core framework logic (file parsing, search indexing).
 
-The heart of DocXes is `x-meta.config.ts`. Here you can define your site's identity, enable features, and inject custom components.
+## Initial Configuration
 
-```typescript
-// x-meta.config.tsx
+Open `x-meta.config.tsx` to set your site's identity.
+
+```tsx title="x-meta.config.tsx"
+import { ShadcnUI } from "@/marketplace/shadcn-ui";
+import { createConfig } from "@/lib/configuration";
 
 export const XMeta = createConfig({
-  ...ShadcnUI, 
-  siteName: "DocXes",
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://docxes.vercel.app",
+  ...ShadcnUI, // Select your theme
+  siteName: "My Documentation",
+  siteUrl: "https://docs.example.com",
   searchProvider: "flexsearch",
-  theme:{
-    mdx:{
-      highlighter: "pretty-code",
-      keepBackground: false
-    }
-  },
-  sidebar: {
-    ...ShadcnUI.sidebar,
-  },
-  header: Header
 });
-
-export default XMeta;
-
-
 ```
 
+## Adding Content
 
-### API Reference
-```typescript
-// @/lib/configuration.tsx
-const defaults: XMetaConfig = {
-  siteName: "DocXes",
-  description: "A dynamic documentation generator framework",
-  siteUrl: "https://docxes.vercel.app/",
-  documentsPath: "content/docs",
-  searchProvider: "local",
-  theme: {
-    mdx: {
-      highlighter: "pretty-code",
-      theme: "github-dark",
-      keepBackground: false,
-    },
-    cssVars:{
-      light: {
-        "background":"", 
-      },
-      dark: {
-        "background":"", 
-      },
-    }
-  },
-  header: Header,
-  modeToggle: ModeToggle,
-  sidebar: { component: DocSidebar, styles: {} },
-  toc: { component: DocTOC, styles: {} },
-  pagination: { component: DocPagination, styles: {} },
-  versions: { default: "v1" }
-};
+Documentation is file-system based. To add a new page:
 
+1. Create a file at `content/docs/v1/my-new-page.mdx`.
+2. Add the required frontmatter:
 
-export const createConfig = (overrides: Partial<XMetaConfig> = {}): XMetaConfig => {
-  return {
-    ...defaults,
-    ...overrides,
-    theme: { ...defaults.theme, ...overrides.theme },
-    sidebar: { ...defaults.sidebar, ...overrides.sidebar },
-    toc: { ...defaults.toc, ...overrides.toc },
-    pagination: { ...defaults.pagination, ...overrides.pagination },
-    versions: { ...defaults.versions, ...overrides.versions },
-  };
-};
-```
-
-## Creating Documentation
-
-Documentation is versioned and file-system based.
-
-1.  Navigate to `content/docs/v1`.
-2.  Create a new file, e.g., `my-feature.mdx`.
-3.  Add frontmatter:
-
-```mdx
+```markdown
 ---
-title: My Feature
-description: Explaining how my feature works.
+title: My New Page
+description: A helpful description for SEO.
 order: 1
 ---
 
-# My Feature
-
-Write your content here using **Markdown** or React components.
+# Welcome
+This is your new page.
 ```
 
-### Folder Structure
+The sidebar will automatically update to include your new file based on the directory structure.
 
-Folders created in `content/docs/v1` automatically become sections in the sidebar. To define metadata for a folder (like its title or order), add a `main.mdx` inside that folder.
-
-## Customization
-
-### Theming
-
-DocX uses a "headless" Tailwind approach. You don't need to edit CSS files to change the primary color or border radius. Just update `theme.cssVars` in the config.
-
-```typescript
-// x-meta.config.tsx
-cosnt XMeta = createConfig({
-  ...XMeta(any),
-  theme:{
-    cssVars:{
-      light: {
-        "background":"", 
-      },
-      dark: {
-        "background":"", 
-      },
-    }
-  }
-})
-
-```
-
-
-### Search
-
-By default, DocXes uses a local `Fuse.js` search provider. You can switch to other providers (like Flexsearch) by implementing the ` searchProvider: "flexsearch" ` in `x-meta.config.tsx`.
-
-### Component Slots
-
-You can inject custom content into key areas of the layout:
-
-- **Sidebar Header/Footer**: Add logos, version switchers, or status indicators.
-- **TOC Header/Footer**: Add "Edit this page" links or ad placements.
-
-```typescript
-// x-meta.config.ts
-sidebarHeader: ({ version }) => <div>Version: {version}</div>
-```
+<MdxAlert type="success" title="You're all set!">
+  Now that you have the basics down, check out the [Configuration Guide](/docs/v1/configuration) to deep dive into advanced settings.
+</MdxAlert>

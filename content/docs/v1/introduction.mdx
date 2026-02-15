@@ -1,87 +1,41 @@
 ---
-title: "Docxes"
-description: "Get started with our documentation"
+title: Introduction
+description: Meet DocXes, the production-ready, zero-core documentation framework.
 order: 1
 ---
 
-## Introduction
+# Introduction
 
-Meet Docxes the next level documentation framework for nextjs. It focuses on Simplicity, high customization across User Interface and zero core package.
+**DocXes** is a next-level documentation framework built for developers who demand full control without the overhead of proprietary core packages. It leverages the cutting-edge performance of **Next.js 16 (Turbopack)** and **React 19** to deliver a seamless, file-system driven documentation experience.
 
-<MdxAlert title="Information" type="info">
-  Just Clone it and use it with zero core package and auto generation sidebar content.
+<MdxAlert title="The Zero-Core Philosophy" type="info">
+  DocXes is not a black box. There are no compiled "core" npm packages hiding the logic. You own the code, you control the framework, and you customize every pixel.
 </MdxAlert>
 
-## What's Initialized
+## Key Features
 
-- Enhanced component library
-- Improved search performance
-- Better dark mode support
-- Extended MDX capabilities
+- **🚀 File-System Routing**: Your folder structure defines your documentation hierarchy. No JSON manifests or database required.
+- **🎨 Headless UI**: Fully decoupled design system. Swap between pre-built themes or build your own using our "Marketplace" formula.
+- **🔍 Advanced Search**: Built-in full-text search powered by FlexSearch with sub-millisecond latency.
+- **⚡ Performance First**: Zero-runtime CSS-in-JS. We use atomic Tailwind v4 styles and native CSS variables for instant updates.
+- **🧩 Slot-Based Architecture**: Inject custom components into headers, footers, and sidebars using simple arrow functions.
+- **📦 MDX-Rich Content**: First-class support for MDX with a library of high-quality components like alerts, steps, and interactive code blocks.
 
-## Getting Started
+## Why DocXes?
 
-The sidebar on the left will help you navigate through the documentation. Each page is automatically generated from markdown files in the `content/docs` directory.
+Most documentation tools force you into a specific workflow or design. DocXes provides the **infrastructure**—fetching, routing, searching, and state management—while leaving the **interface** and **logic** entirely in your hands.
 
-You can create new pages by adding `.md` or `.mdx` files to the appropriate folders.
+Whether you're building a simple guide or a complex multi-versioned technical manual, DocXes scales with your needs without adding bloat.
 
-[Google](https://google.com)
+## Next Steps
 
-## Example Components
+Explore the following guides to get started:
 
-### Alert Example
-
-<MdxAlert title="Information" type="info">
-  This is an info alert. Use it to provide general guidance or tips.
-</MdxAlert>
-
-<MdxAlert title="Warning" type="warning">
-  Be careful! This is a warning alert.
-</MdxAlert>
-
-<MdxAlert title="Success" type="success">
-  Action completed successfully!
-</MdxAlert>
-
-<MdxAlert title="Error" type="error">
-  Something went wrong. Please try again.
-</MdxAlert>
-
-### Card Example
-
-<MdxCard title="Documentation Tip" description="Best Practice">
-  Always keep your MDX files organized by topic and version.
-</MdxCard>
-
-<MdxCard title="Secondary Card" variant="secondary">
-  You can use secondary variant cards to highlight different content.
-</MdxCard>
-
-### Badge Example
-
-Here are some badges you can use:
-
-<MdxBadge>Default</MdxBadge>
-<MdxBadge variant="secondary">Secondary</MdxBadge>
-<MdxBadge variant="destructive">Destructive</MdxBadge>
-
-`npm install gpass`
-
-```js
-const hello = () => {
-  console.log("Hi");
-};
-```
-
-<StepsWithCounter>
-  <Step>
-  #### Install dependencies
-  install deps to make pro
-  
-  `console.log("hello")`
-  
-  </Step>
-  <Step>Configure project</Step>
-  <Step>Run the app</Step>
-</StepsWithCounter>
-
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+  <MdxCard title="Quick Start" href="/docs/v1/getting-started">
+    Install DocXes and launch your documentation in minutes.
+  </MdxCard>
+  <MdxCard title="Theme Guide" href="/docs/v1/theming" variant="secondary">
+    Learn how to customize colors and layouts with Headless Tailwind.
+  </MdxCard>
+</div>

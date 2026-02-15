@@ -1,65 +1,82 @@
 ---
-title: Custom UI Components
-description: Go beyond configuration and build your own UI components.
-order: 4
+title: Customization
+description: Advanced techniques for extending DocXes.
+order: 6
 ---
 
-## Using Arrow Functions
+# Customization
 
-You can define custom headers, footers, and item renderers directly in your config using arrow functions. These functions receive default parameters to help you stay in sync with the framework.
+DocXes is designed to be fully extensible. You can go beyond simple configuration and build your own logic using slots, hooks, and custom components.
 
-### Custom Page Header
+## Slot-Based Architecture
 
-The main site header can also be customized:
+Every major section of the layout is a "slot." You can override these in `x-meta.config.tsx`.
 
-```tsx
-// x-meta.config.tsx
-import { Header } from "@/my-comp";
-const XMeta = createConfig({
-  ...XMeta,
-  header: ({ siteName, versions }) => (
-    <header className="flex justify-between items-center p-4 bg-white shadow">
-      <Logo />
-      <nav>
-        {versions.map((v) => (
-          <a key={v} href={`/docs/${v}`}>
-            {v}
-          </a>
-        ))}
-      </nav>
-    </header>
-  ),
-});
-```
+### Core Layout Slots
 
-### Custom without params
+| Slot | Description |
+| :--- | :--- |
+| `header` | The global site header. |
+| `footer` | The global site footer. |
+| `sidebar.component` | The entire navigation sidebar. |
+| `sidebar.header` | Content above the navigation links. |
+| `sidebar.footer` | Content below the navigation links. |
+| `toc.component` | The "On this page" sidebar. |
+| `pagination.component` | The bottom "Next/Prev" buttons. |
+
+### Overriding with Arrow Functions
+
+Simple overrides can be done directly in the config:
 
 ```tsx
-// x-meta.config.tsx
-import { Header } from "@/my-comp";
-const XMeta = createConfig({
-  ...XMeta,
-  header: Header,
-});
-header: Header;
+sidebar: {
+  header: ({ version, versions }) => (
+    <div className="p-4 bg-muted/50 rounded-lg m-4">
+      <h3 className="font-bold">Project {version}</h3>
+      <VersionSelect version={version} versions={versions} />
+    </div>
+  )
+}
 ```
 
-## Component Slots
+## Built-in Hooks
 
-DocXes uses a slot-based architecture. You can override the default component for major sections:
+If you build your own custom components for these slots, you can leverage our internal hooks to access framework state.
 
-- `sidebar.component`
-- `toc.component`
-- `pagination.component`
-- `header`
-- `footer`
+### `useDocSidebar`
+Returns navigation items, mobile open state, and expansion logic.
+```tsx
+const { items, open, setOpen, toggleExpanded } = useDocSidebar(version, currentPath);
+```
 
-By providing your own component to these slots, you can completely redefine the user experience while still benefiting from DocXes's data fetching and state management hooks.
+### `useDocTOC`
+Returns the active heading based on the current scroll position.
+```tsx
+const { activeId } = useDocTOC(headings);
+```
 
-### Hooks for Custom Components
+### `useContentData`
+(Server Side) Retrieves the full data object for a specific document, including metadata, content, and breadcrumbs.
 
-If you build your own components, you can use our built-in hooks:
+### `useSidebar`
+(Client Side) Accesses the global sidebar state (useful for creating toggle buttons in your own header).
+```tsx
+const { toggle, open, setOpen } = useSidebar();
+```
 
-- `useDocSidebar(version, currentPath)`: Get navigation items and mobile state.
-- `useDocTOC(headings)`: Get active heading and scroll logic.
-- `useContentData(version, slug)`: Get the full page data.
+## Creating Custom Search Providers
+
+DocXes abstracts search behind the `SearchProviderInterface`. You can implement your own provider (e.g., for Algolia) by creating a class that implements:
+
+```typescript
+interface SearchProviderInterface {
+  name: string;
+  initialize(): Promise<void>;
+  search(query: string, options?: SearchOptions): Promise<SearchResult[]>;
+}
+```
+
+Then, update your config:
+```tsx
+searchProvider: new MyAlgoliaProvider(),
+```

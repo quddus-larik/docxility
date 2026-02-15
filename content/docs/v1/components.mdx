@@ -1,94 +1,112 @@
 ---
-title: Components & MDX
-description: Reference guide for built-in MDX components available in DocX.
-order: 4
+title: Components
+description: A reference guide for built-in MDX components.
+order: 5
 ---
-DocXes comes with a suite of built-in React components that you can use directly in your `.mdx` files.
 
-## Standard Markdown
+# Components
 
-All standard Markdown syntax is supported:
+DocXes provides a set of high-quality components designed for technical documentation. These are available globally in all your `.mdx` files.
 
-- **Bold**: `**text**`
-- _Italic_: `*text*`
-- [Links](https://example.com)
-- Lists (ordered and unordered)
-- Tables
-- Blockquotes
+## Alerts (`MdxAlert`)
 
-## Built-in Components
+Use alerts to provide contextual feedback or emphasize important points.
 
-### Alerts
+<MdxAlert type="info" title="Info">
+  Standard information or helpful tips.
+</MdxAlert>
 
-Use `MdxAlert` to call attention to important information.
+<MdxAlert type="warning" title="Warning">
+  Actions that require caution.
+</MdxAlert>
+
+<MdxAlert type="success" title="Success">
+  Confirmation of a successful action.
+</MdxAlert>
+
+<MdxAlert type="error" title="Error">
+  Critical issues or dangerous operations.
+</MdxAlert>
 
 ```jsx
-<MdxAlert type="info" title="Note">
-  This is a useful piece of information.
-</MdxAlert>
-
-<MdxAlert type="warning" title="Caution">
-  Be careful when modifying this setting.
-</MdxAlert>
-
-<MdxAlert type="error" title="Critical">
-  Do not delete the production database.
-</MdxAlert>
-
-<MdxAlert type="success" title="Done">
-  Setup completed successfully.
+<MdxAlert type="info" title="Important">
+  This is an alert.
 </MdxAlert>
 ```
 
-### Cards
+## Cards (`MdxCard`)
 
-Cards are great for grouping links or concepts.
+Cards are ideal for grouping related links or highlighting key sections.
+
+<MdxCard title="Architecture" href="/docs/v1/architecture">
+  Deep dive into the framework's core.
+</MdxCard>
 
 ```jsx
-<MdxCard title="Getting Started" href="/docs/v1/getting-started">
-  Learn the basics of DocX.
+<MdxCard title="Card Title" href="/docs/v1/page">
+  Card content goes here.
 </MdxCard>
 ```
 
-### Badges
+## Steps (`StepsWithCounter` / `Step`)
 
-Inline badges for versioning or status.
+Perfect for tutorials and installation guides.
 
-```jsx
-This feature is <MdxBadge>Beta</MdxBadge> and available in <MdxBadge variant="secondary">v2.0</MdxBadge>.
-```
-
-### Steps
-
-Use `StepsWithCounter` and `Step` to document tutorials.
+<StepsWithCounter>
+  <Step>
+    #### Step One
+    Install the package.
+  </Step>
+  <Step>
+    #### Step Two
+    Configure the API key.
+  </Step>
+</StepsWithCounter>
 
 ```jsx
 <StepsWithCounter>
   <Step>
-    #### Install Node.js
-    Ensure you have Node v18+ installed.
-  </Step>
-  <Step>
-    #### Clone Repo
-    `git clone ...`
+    #### First Step
+    Instructions...
   </Step>
 </StepsWithCounter>
 ```
 
-### Code Blocks
+## Badges (`MdxBadge`)
 
-Code blocks support syntax highlighting and filenames.
+Small status indicators.
 
-```typescript title="example.ts"
-function hello(name: string) {
-  console.log(`Hello ${name}`);
+<div className="flex gap-2 mb-4">
+  <MdxBadge>Default</MdxBadge>
+  <MdxBadge variant="secondary">Secondary</MdxBadge>
+  <MdxBadge variant="outline">Outline</MdxBadge>
+  <MdxBadge variant="destructive">Destructive</MdxBadge>
+</div>
+
+```jsx
+<MdxBadge variant="secondary">Beta</MdxBadge>
+```
+
+## Code Blocks
+
+Code blocks are automatically enhanced with:
+- **Syntax Highlighting** (via Shiki/rehype-pretty-code)
+- **Copy to Clipboard** button
+- **Line Highlighting**
+- **Word Highlighting**
+
+```typescript title="lib/utils.ts" {1-2}
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
 }
 ```
 
-## Adding Custom Components
+## Tables
 
-To add your own components:
+DocXes automatically styles standard Markdown tables for optimal readability.
 
-1. Create the component in `components/mdx/`.
-2. Register it in `components/mdx/mdx-components.tsx`.
-3. It will be available globally in all MDX files.
+| Feature | Support |
+| :--- | :--- |
+| Responsive | Yes |
+| Sticky Header | Optional |
+| Custom Styles | via `mdx-table.tsx` |

@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/sidebar-context";
 
 /**
- * Curved UI Customization for DocX
+ * Curved UI Customization for DocXes
  * This "formula" provides a soft, rounded aesthetic with pill-shaped elements 
  * and elevated surfaces.
  */
@@ -41,7 +41,7 @@ export const CurvedUI: Partial<XMetaConfig> = {
           <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold shadow-lg shadow-primary/20">
             D
           </div>
-          <div className="font-extrabold text-xl tracking-tight">DocX</div>
+          <div className="font-extrabold text-xl tracking-tight">Docxes</div>
         </div>
         
         {versions && versions.length > 1 && (

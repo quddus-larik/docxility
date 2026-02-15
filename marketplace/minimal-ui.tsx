@@ -1,7 +1,7 @@
 import { XMetaConfig, HeaderProps } from "@/types/interface";
 
 /**
- * Minimal UI Customization for DocX
+ * Minimal UI Customization for DocXes
  * A clean, spacious, and extremely focused aesthetic with no borders.
  */
 

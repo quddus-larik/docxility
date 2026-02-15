@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/components/sidebar-context";
 
 /**
- * Shadcn UI Customization for DocX
+ * Shadcn UI Customization for DocXes
  * A classic, high-contrast black and white aesthetic with clean borders
  * and a professional feel.
  */
