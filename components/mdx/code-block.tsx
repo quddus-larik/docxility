@@ -33,7 +33,7 @@ export const CodeBlock: React.FC<PreProps> = ({
       <pre
         ref={preRef}
         className={`
-          max-h-[400px] overflow-auto
+          max-h-100 overflow-auto
           whitespace-pre
           px-4 py-3 text-sm font-mono
           ${className || ""}
@@ -43,7 +43,6 @@ export const CodeBlock: React.FC<PreProps> = ({
         <code>{children}</code>
       </pre>
 
-      {/* Copy Button */}
       <Button
         size="icon"
         variant="outline"
